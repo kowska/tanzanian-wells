@@ -23,7 +23,6 @@ var projection = d3.geo.albers()
 var geoPath = d3.geo.path()
     .projection( projection );
 
-
 var wells = svg.append( "g" );
 
 function main(){
@@ -39,9 +38,10 @@ function main(){
   		.data(data)
   		.enter()
   		.append("circle")
-		  .attr("cx", function (d) { console.log(d.longitude); return projection([d.longitude,d.latitude])[0];})
-	  	.attr("cy", function (d) { console.log(d.latitude);  return projection([d.longitude,d.latitude])[1];})
-  		.attr("class", "bubble")  
+		  .attr("cx", function (d) { return projection([d.longitude,d.latitude])[0];})
+	  	.attr("cy", function (d) { return projection([d.longitude,d.latitude])[1];})
+  		.attr("class", "wells")  
+  		.attr("r", function(d){ return d.population/200;})  
   		.append("title")
       .text(function(d) {
         return d.id

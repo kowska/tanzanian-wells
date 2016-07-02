@@ -4,28 +4,9 @@ body {
     margin: 0px;
 }
 
-.wells{
-    r: 1px;    
-    fill: red;
-}
-
-.functional{
-    fill: cyan;
-}
-
-.nonfunctional{
-    fill: red;
-}
-
-.needsrepair{
-    fill: yellow;
-    
-}
 
 
-.land {
-  fill: #ddd;
-}
+
 
 .border {
   fill: none;
@@ -34,8 +15,8 @@ body {
   stroke-linecap: round;
 }
 
-.bubble {
-  r: 3px;
+.wells {
+  /*r: 3px;*/
   fill: brown;
   fill-opacity: .5;
   stroke: #fff;

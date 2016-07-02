@@ -41,8 +41,11 @@ function main(){
   		.append("circle")
 		  .attr("cx", function (d) { console.log(d.longitude); return projection([d.longitude,d.latitude])[0];})
 	  	.attr("cy", function (d) { console.log(d.latitude);  return projection([d.longitude,d.latitude])[1];})
-  		.attr("r", "1px")
-  		.attr("fill", "red");
+  		.attr("class", "bubble")  
+  		.append("title")
+      .text(function(d) {
+        return d.id
+       });
   		
   });
   

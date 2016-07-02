@@ -14,14 +14,17 @@ var svg = d3.select( "body" )
 
 var g = svg.append( "g" );
 
-var albersProjection = d3.geo.albers()
-  .scale( 6000 )
+var projection = d3.geo.albers()
+  .scale( 5000 )
   .rotate( [-35.36,0] )
   .center( [0, -6.2] )
   .translate( [width/2,height/2] );
 
 var geoPath = d3.geo.path()
-    .projection( albersProjection );
+    .projection( projection );
+
+
+var wells = svg.append( "g" );
 
 function main(){
   g.selectAll( "path" )
@@ -30,5 +33,17 @@ function main(){
   .append( "path" )
   .attr( "fill", "#ccc" )
   .attr( "d", geoPath );
+  
+  d3.csv("assets/well_data.csv", function(data) {
+      wells.selectAll("circle")
+  		.data(data)
+  		.enter()
+  		.append("circle")
+		  .attr("cx", function (d) { console.log(d.longitude); return projection([d.longitude,d.latitude])[0];})
+	  	.attr("cy", function (d) { console.log(d.latitude);  return projection([d.longitude,d.latitude])[1];})
+  		.attr("r", "1px")
+  		.attr("fill", "red");
+  		
+  });
   
 }

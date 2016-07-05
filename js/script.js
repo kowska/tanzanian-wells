@@ -1,7 +1,7 @@
 /*global d3*/
 
 var width = 1600,
-    height = 1000;
+    height = 900;
 
 var tanzania_json = {
 "type": "FeatureCollection",
@@ -30,7 +30,8 @@ function main(){
   .data( tanzania_json.features )
   .enter()
   .append( "path" )
-  .attr( "fill", "#ccc" )
+  // .attr( "fill", "#ccc" )
+  .attr( "fill", "	#f2f2d9")
   .attr( "d", geoPath );
   
   d3.csv("assets/well_data.csv", function(data) {
@@ -41,12 +42,31 @@ function main(){
 		  .attr("cx", function (d) { return projection([d.longitude,d.latitude])[0];})
 	  	.attr("cy", function (d) { return projection([d.longitude,d.latitude])[1];})
   		.attr("class", "wells")  
-  		.attr("r", function(d){ return d.population/200;})  
+  		.attr("r", function(d){ return (d.population/1000) + 1;})  
   		.append("title")
       .text(function(d) {
-        return d.id
+        return ("id:" + d.id + "\npop'n:" + d.population);
+        
        });
-  		
   });
-  
+
+}
+
+function to_radians(num) {
+    return (num * Math.PI / 180);
+}
+
+function get_distance(p1, p2){      
+    var R = 6371000;
+    var phi_1 = to_radians(p1[0]);
+    var phi_2 = to_radians(p2[0]);
+    var delta_phi = to_radians(p1[0] - p2[0]);
+    var delta_lambda = to_radians(p1[1] - p2[1]);
+
+    var a = Math.sin(delta_phi/2) * Math.sin(delta_phi/2) +
+                Math.cos(phi_1) * Math.cos(phi_2) *
+                Math.sin(delta_lambda/2) * Math.sin(delta_lambda/2);
+
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));    
+    return (R * c);
 }
